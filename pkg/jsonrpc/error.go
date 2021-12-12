@@ -20,8 +20,11 @@ type Error struct {
 	Code    int             `json:"code"`
 	Message string          `json:"message"`
 	Data    json.RawMessage `json:"data"`
+	Name    string          `json:"name"`
+	Info    json.RawMessage `json:"info"`
 }
 
 func (err Error) Error() string {
+	// TODO: use Name & Info
 	return fmt.Sprintf("JSON-RPC error '%s' (%d) %s", err.Message, err.Code, string(err.Data))
 }
