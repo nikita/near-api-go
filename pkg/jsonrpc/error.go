@@ -17,14 +17,24 @@ const (
 )
 
 type Error struct {
-	Code    int             `json:"code"`
-	Message string          `json:"message"`
-	Data    json.RawMessage `json:"data"`
-	Name    string          `json:"name"`
-	Info    json.RawMessage `json:"info"`
+	Code    int              `json:"code"`
+	Message string           `json:"message"`
+	Data    json.RawMessage  `json:"data"`
+	Name    string           `json:"name"`
+	Cause   json.RawMessage  `json:"cause"`
+	Info    *json.RawMessage `json:"info"`
 }
 
 func (err Error) Error() string {
-	// TODO: use Name & Info
+	// TODO: use Name, Cause & Info
+	//fmt.Printf("%#v\n", err)
+	fmt.Printf("name: %s\n", err.Name)
+	fmt.Printf("cause: %s\n", string(err.Cause))
+	info := "<nil>"
+	if err.Info != nil {
+		info = string(*err.Info)
+	}
+	fmt.Printf("info: %s\n", info)
+
 	return fmt.Sprintf("JSON-RPC error '%s' (%d) %s", err.Message, err.Code, string(err.Data))
 }
